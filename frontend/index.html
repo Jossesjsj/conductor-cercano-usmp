@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>Conductor Cercano · USMP</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050816'/%3E%3Cpath d='M32 8 52 20v24L32 56 12 44V20z' fill='none' stroke='%2300D9FF' stroke-width='3'/%3E%3Ccircle cx='32' cy='30' r='7' fill='%238B5CF6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="mode-slides">
+  <div id="bg" aria-hidden="true"><i class="aur aur--a"></i><i class="aur aur--b"></i><i class="grid-bg"></i></div>
+
+  <div id="boot" class="boot" role="status">
+    <div class="boot__ring"></div>
+    <p class="boot__eyebrow">UNIVERSIDAD DE SAN MARTÍN DE PORRES</p>
+    <h1 class="boot__title">Asignación del conductor más cercano</h1>
+    <p class="boot__status" id="boot-status">Conectando con el backend Python…</p>
+  </div>
+
+  <header class="topbar" id="topbar">
+    <button class="brand" id="brand" type="button" aria-label="Ir a la portada">
+      <span class="brand__logo" aria-hidden="true"></span>
+      <span class="brand__txt"><strong>CONDUCTOR CERCANO</strong><small>USMP · AED II · Proyecto Integrador N.º 2</small></span>
+    </button>
+    <div class="topbar__title" id="topbar-title"></div>
+    <div class="topbar__actions">
+      <div class="seg" role="group" aria-label="Modo de presentación">
+        <button type="button" data-mode="slides" class="is-on" title="Diapositivas (tecla S)">Diapositivas</button>
+        <button type="button" data-mode="scroll" title="Web desplazable (tecla S)">Scroll</button>
+      </div>
+      <button class="btn btn--ghost btn--sm" id="btn-tour" type="button" title="Recorrido de 5 minutos (tecla D)">▶ Demostración rápida</button>
+      <button class="btn btn--neon btn--sm" id="btn-expo" type="button" title="Modo exposición (tecla E)">Modo exposición</button>
+      <button class="icon-btn" id="btn-perf" type="button" title="Rendimiento gráfico: alto / bajo" aria-label="Rendimiento">⚡</button>
+      <button class="icon-btn" id="btn-menu" type="button" title="Índice (M)" aria-label="Índice">☰</button>
+    </div>
+  </header>
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
+  <main id="deck" class="deck" tabindex="-1"></main>
+
+  <nav class="navbar" id="navbar" aria-label="Navegación de diapositivas">
+    <button class="nav-btn" id="btn-prev" type="button" title="Anterior (←)">‹ <span>Anterior</span></button>
+    <div class="nav-count"><strong id="count-cur">01</strong><span id="count-tot">/ 18</span></div>
+    <button class="nav-btn" id="btn-next" type="button" title="Siguiente (→ o Espacio)"><span>Siguiente</span> ›</button>
+    <div class="nav-tour" id="tour-indicator" hidden></div>
+    <div class="nav-right">
+      <span class="nav-hint"><kbd>←</kbd><kbd>→</kbd> navegar · <kbd>F</kbd> pantalla completa · <kbd>N</kbd> notas</span>
+      <button class="nav-btn" id="btn-notes" type="button" title="Notas del expositor (N)">Notas</button>
+      <button class="nav-btn" id="btn-fs" type="button" title="Pantalla completa (F)">⛶</button>
+    </div>
+  </nav>
+
+  <button class="to-top" id="to-top" type="button" title="Volver al inicio" aria-label="Volver al inicio">↑</button>
+
+  <div class="menu-backdrop" id="menu-backdrop" hidden></div>
+  <aside class="menu" id="menu" aria-label="Índice de diapositivas" hidden>
+    <div class="menu__head"><div><p class="eyebrow">ÍNDICE</p><h2>18 secciones</h2></div><button class="icon-btn" id="menu-close" type="button" aria-label="Cerrar">✕</button></div>
+    <ol class="menu__list" id="menu-list"></ol>
+    <div class="menu__foot">
+      <a href="/docs" target="_blank" rel="noopener" class="dev-only">API (OpenAPI) ↗</a>
+      <span>Datos viales © OpenStreetMap (ODbL)</span>
+    </div>
+  </aside>
+
+  <aside class="presenter" id="presenter" hidden aria-label="Panel del expositor">
+    <div class="presenter__clock">
+      <span class="presenter__label">SUSTENTACIÓN · 15 MIN</span>
+      <strong id="pres-time">15:00</strong>
+      <span id="pres-phase">Demostración en vivo</span>
+      <div class="presenter__btns"><button class="btn btn--sm btn--neon" id="pres-toggle" type="button">Iniciar</button><button class="btn btn--sm btn--ghost" id="pres-reset" type="button">Reiniciar</button></div>
+    </div>
+    <div class="presenter__notes"><span class="presenter__label">NOTAS DE ESTA DIAPOSITIVA</span><p id="pres-notes"></p></div>
+  </aside>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/chart.umd.js"></script>
+  <script src="vendor/katex/katex.min.js"></script>
+  <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.js", "three/addons/": "./vendor/three/" } }</script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "nombre": "Comas (sector central), Lima, Perú",
+  "norte": -11.93,
+  "sur": -11.952,
+  "oeste": -77.068,
+  "este": -77.046,
+  "fuente": "OpenStreetMap contributors (ODbL 1.0)",
+  "herramienta": "OSMnx 2.1.1 · graph_from_bbox(network_type='drive')",
+  "descargado": "2026-11-09T16:48:46+00:00",
+  "nodos_originales": 1138,
+  "aristas_originales": 2870,
+  "edificios": 1306
+}

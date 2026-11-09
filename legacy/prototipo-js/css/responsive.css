@@ -1,0 +1,229 @@
+/* ==========================================================================
+   Adaptación a resoluciones y equipos
+   ========================================================================== */
+
+@media (max-width: 1440px) {
+  .cover-academic { max-width: 360px; }
+  .cover-title { font-size: clamp(36px, 5.2vw, 76px); }
+  .quad-left { width: 330px; }
+  .dij-left { width: 310px; }
+  .dij-right { width: 330px; }
+}
+
+@media (max-width: 1240px) {
+  :root { --pad: 24px; }
+  .topbar__presentation span { display: none; }
+  .topbar__presentation { padding: 8px 10px; }
+  .deckbar__hint { display: none; }
+  .cover-scene { grid-template-columns: minmax(0, 1fr) 330px; gap: 30px; }
+  .cover-academic { max-width: 330px; }
+  .cover-corner strong { font-size: 48px; }
+  .arch-layout { grid-template-columns: minmax(0, 1fr) 300px; }
+  .network-layout { grid-template-columns: 340px minmax(0, 1fr); }
+  .dispatch-layout { grid-template-columns: minmax(0, 1fr) 380px; }
+  .sim-layout { grid-template-columns: 290px minmax(0, 1fr); }
+  .map-layout { grid-template-columns: 300px minmax(0, 1fr); }
+  .bench-grid { grid-template-columns: 1fr; }
+  .bench-chart { height: 220px; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .complex-layout { grid-template-columns: minmax(0, 1fr) 330px; }
+  .concl-results { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 1080px) {
+  :root { --pad: 20px; --topbar: 64px; --deckbar: 68px; }
+  .topbar__meta { display: none; }
+  .brand__text small { display: none; }
+  .cover-scene { grid-template-columns: minmax(0, 1fr) 300px; }
+  .cover-academic { padding: 15px; }
+  .cover-academic dl { grid-template-columns: 64px 1fr; font-size: 9.5px; }
+  .cover-stats { gap: 16px; }
+  .problem-layout { grid-template-columns: minmax(340px, 1fr) 0.8fr; }
+  .problem-float { display: none; }
+  .arch-layout { grid-template-columns: 1fr; grid-template-rows: 1fr auto; overflow-y: auto; }
+  .arch-main { min-height: 420px; }
+  .arch-side { flex-direction: row; }
+  .arch-side > * { flex: 1; }
+  .network-layout { grid-template-columns: 300px minmax(0, 1fr); }
+  .quad-left { width: 300px; }
+  .quad-right { width: 260px; }
+  .quad-steps { display: none; }
+  .hav-layout { grid-template-columns: minmax(340px, 1fr) 0.9fr; }
+  .heap-layout { grid-template-columns: 320px minmax(0, 1fr); }
+  .heap-top { grid-template-columns: 1fr; }
+  .eta-layout { grid-template-columns: 330px minmax(0, 1fr); }
+  .dispatch-layout { grid-template-columns: minmax(0, 1fr) 360px; }
+  .tests-layout { grid-template-columns: minmax(0, 1fr) 300px; }
+  .concl-results { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 920px) {
+  body { overflow: auto; }
+  .stage { position: relative; min-height: 100dvh; }
+  .scene { position: absolute; }
+  .scene.is-active { position: relative; min-height: 100dvh; }
+  .deckbar { position: fixed; }
+  .deckbar__center { display: none; }
+  .brand__text strong { font-size: 10px; }
+  .cover-scene {
+    grid-template-columns: 1fr;
+    align-items: start;
+    align-content: start;
+    overflow-y: auto;
+    padding-top: calc(var(--topbar) + 24px);
+    padding-bottom: calc(var(--deckbar) + 24px);
+    gap: 20px;
+  }
+  .cover-academic { justify-self: stretch; max-width: none; }
+  .cover-corner { display: none; }
+  .cover-title { font-size: clamp(34px, 9vw, 60px); }
+  .cover-hint { display: none; }
+  .problem-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    overflow-y: auto;
+    align-items: start;
+  }
+  .problem-panel { max-height: none; }
+  .problem-right { min-height: 280px; }
+  .arch-layout { grid-template-rows: auto auto; }
+  .arch-flow-wrap { overflow-x: auto; padding: 12px; }
+  .arch-flow { min-width: 760px; }
+  .network-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 460px;
+    overflow-y: auto;
+    height: auto;
+    min-height: 100%;
+  }
+  .network-left { overflow: visible; }
+  .network-map { min-height: 460px; }
+  .hav-layout { grid-template-columns: 1fr; grid-template-rows: auto 480px; overflow-y: auto; height: auto; min-height: 100%; }
+  .hav-left { overflow: visible; }
+  .hav-right { min-height: 480px; }
+  .heap-layout { grid-template-columns: 1fr; grid-template-rows: auto 520px; overflow-y: auto; height: auto; min-height: 100%; }
+  .heap-left { overflow: visible; }
+  .heap-right { min-height: 500px; }
+  .eta-layout { grid-template-columns: 1fr; grid-template-rows: auto 520px; overflow-y: auto; height: auto; min-height: 100%; }
+  .eta-left { overflow: visible; }
+  .eta-right { min-height: 500px; }
+  .dispatch-layout { grid-template-columns: 1fr; grid-template-rows: 420px auto; overflow-y: auto; height: auto; min-height: 100%; }
+  .dispatch-map { min-height: 420px; }
+  .sim-layout { grid-template-columns: 1fr; grid-template-rows: auto 480px; overflow-y: auto; height: auto; min-height: 100%; }
+  .sim-controls { overflow: visible; }
+  .sim-stage { min-height: 460px; }
+  .map-layout { grid-template-columns: 1fr; grid-template-rows: auto 480px; overflow-y: auto; height: auto; min-height: 100%; }
+  .map-panel { overflow: visible; }
+  .map-full { min-height: 460px; }
+  .complex-layout { grid-template-columns: 1fr; overflow-y: auto; }
+  .tests-layout { grid-template-columns: 1fr; grid-template-rows: auto 360px; overflow-y: auto; height: auto; min-height: 100%; }
+  .tests-side { overflow: visible; }
+  .concl-layout { overflow-y: auto; justify-content: flex-start; padding-top: calc(var(--topbar) + 30px); }
+  .concl-results { grid-template-columns: repeat(2, 1fr); }
+
+  /* Escenas 3D: paneles apilados */
+  .quad-layout { padding-top: calc(var(--topbar) + 12px); overflow-y: auto; }
+  .quad-left { width: 100%; height: auto; max-height: none; overflow: visible; }
+  .quad-right { position: relative; top: auto; right: auto; width: 100%; max-height: none; margin-top: 10px; }
+  .quad-toolbar { bottom: auto; top: calc(var(--topbar) + 10px); }
+  .quad-readout { display: none; }
+  .dij-layout { padding-top: calc(var(--topbar) + 12px); overflow-y: auto; }
+  .dij-left { width: 100%; height: auto; overflow: visible; }
+  .dij-right { position: relative; top: auto; right: auto; width: 100%; max-height: none; margin-top: 10px; }
+  .dij-bottom { bottom: calc(var(--deckbar) + 10px); }
+}
+
+@media (max-width: 680px) {
+  :root { --pad: 14px; --deckbar: 64px; }
+  .topbar { gap: 10px; }
+  .brand__mark { width: 34px; height: 34px; }
+  .brand__mark svg { width: 21px; height: 21px; }
+  .brand__text strong { font-size: 9px; letter-spacing: 0.1em; white-space: normal; }
+  .icon-btn { width: 34px; height: 34px; }
+  .deckbar { gap: 6px; padding: 0 10px; }
+  .deckbar__nav { padding: 7px 10px; }
+  .deckbar__nav span { display: none; }
+  .deckbar__nav svg { width: 18px; height: 18px; }
+  .deckbar__count { padding: 0 2px; font-size: 9px; }
+  .deckbar__tool span { display: none; }
+  .deckbar__tool { padding: 7px 9px; }
+  .cover-title { font-size: clamp(32px, 11vw, 48px); }
+  .cover-subtitle { font-size: 12px; }
+  .cover-stats { gap: 12px; }
+  .cover-stat strong { font-size: 14px; }
+  .cover-cta .btn { width: 100%; }
+  .cover-academic dl { grid-template-columns: 60px 1fr; }
+  .scene__heading h2 { font-size: 24px; }
+  .scene__heading p.lead { font-size: 12px; }
+  .arch-flow { min-width: 680px; }
+  .arch-side { flex-direction: column; }
+  .arch-detail { min-height: 0; }
+  .network-stats { grid-template-columns: 1fr 1fr; }
+  .hav-coords { grid-template-columns: 1fr; }
+  .eta-cards { grid-template-columns: 1fr; }
+  .eta-map { flex-basis: 220px; }
+  .concl-results { grid-template-columns: 1fr; }
+  .concl-title { font-size: 26px; }
+  .concl-footer { flex-direction: column; align-items: flex-start; }
+  .tests-summary { grid-template-columns: 1fr 1fr; }
+  .test-item { grid-template-columns: 18px 1fr auto; }
+  .test-item__group { display: none; }
+  .compare-cards { grid-template-columns: 1fr; }
+  .complex-notes { grid-template-columns: 1fr; }
+  .help-grid { grid-template-columns: 1fr; }
+  .pres-layout { grid-template-columns: 1fr; grid-template-areas: "clock" "route" "notes"; }
+  .pres-clock strong { font-size: 48px; }
+  .modal__head, .modal__body, .modal__foot { padding-left: 16px; padding-right: 16px; }
+  .pres-pill { bottom: calc(var(--deckbar) + 8px); right: 8px; }
+  .drawer { width: 100vw; }
+}
+
+@media (max-width: 420px) {
+  .brand__text { display: none; }
+  .cover-stats { display: grid; grid-template-columns: 1fr 1fr; }
+  .metrics { grid-template-columns: 1fr 1fr; }
+  .deckbar__tool span { display: none; }
+}
+
+/* Pantallas de poca altura (laptops 768p) */
+@media (max-height: 760px) and (min-width: 921px) {
+  :root { --topbar: 62px; --deckbar: 66px; }
+  .cover-title { font-size: clamp(34px, 4.8vw, 68px); }
+  .cover-subtitle { font-size: 13px; margin-bottom: 16px; }
+  .cover-stats { margin-top: 16px; }
+  .cover-academic { padding: 14px 16px; }
+  .cover-academic .uni { padding-bottom: 8px; margin-bottom: 8px; }
+  .cover-academic dl { gap: 3px 8px; font-size: 9.5px; }
+  .panel { padding: 15px; }
+  .scene__heading { margin-bottom: 10px; }
+  .scene__heading h2 { font-size: clamp(22px, 2vw, 30px); }
+  .problem-panel { padding: 16px; }
+  .problem-step { padding: 6px 0; }
+  .arch-detail { min-height: 170px; }
+  .hav-result strong { font-size: 23px; }
+  .heap-tree { min-height: 140px; }
+  .dij-right { max-height: calc(100% - var(--deckbar) - var(--topbar) - 4vh); }
+  .concl-results { margin: 12px 0; }
+}
+
+/* Modo rendimiento bajo */
+body.quality-low .glass {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(18, 11, 29, 0.93);
+}
+body.quality-low .bg-noise,
+body.quality-low .bg-scan,
+body.quality-low #cursor-glow {
+  display: none;
+}
+body.quality-low .bg-aurora {
+  filter: blur(50px);
+  opacity: 0.3;
+}
+body.quality-low .glass::before {
+  display: none;
+}
+body.quality-low .bg-grid {
+  animation: none;
+}

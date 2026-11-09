@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+servidor.log
+datos/cache_osm/
+datos/descarga.log
+datos/cache_geocodificacion.json
+entregables/capturas/*_rec.png
+herramientas/
+tunel.log
+tunel.log.out
+servidor.err.log

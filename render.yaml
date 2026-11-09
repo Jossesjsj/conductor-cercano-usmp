@@ -1,0 +1,16 @@
+# Despliegue permanente en Render (https://render.com) — plan gratuito.
+# 1) Sube este proyecto a un repositorio de GitHub.
+# 2) En Render: New + → Blueprint → elige el repositorio. Render lee este archivo.
+services:
+  - type: web
+    name: conductor-cercano-usmp
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements-web.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/estado
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.9
+      - key: PYTHONIOENCODING
+        value: utf-8

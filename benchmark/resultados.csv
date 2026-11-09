@@ -1,0 +1,4 @@
+conductores,consultas,lineal_mediana_ms,quadtree_mediana_ms,lineal_p95_ms,quadtree_p95_ms,revisados_quadtree,aceleracion,resultados_identicos
+300,30,0.4792,0.1067,0.6001,0.2188,40.8,4.49,True
+3000,30,5.0526,0.5024,8.4127,0.8346,159.5,10.06,True
+30000,30,47.4422,4.6114,67.4563,8.0301,1290.7,10.29,True

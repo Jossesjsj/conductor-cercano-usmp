@@ -1,0 +1,14 @@
+{
+  "name": "presentacion-conductor-cercano",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Presentación académica 3D interactiva — Asignación del conductor más cercano (USMP, Algoritmos y Estructura de Datos II)",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node tests/run-node.mjs"
+  },
+  "keywords": ["quadtree", "dijkstra", "haversine", "threejs", "leaflet", "osm", "comas"],
+  "license": "MIT"
+}

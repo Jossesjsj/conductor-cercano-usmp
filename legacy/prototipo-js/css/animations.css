@@ -1,0 +1,217 @@
+/* ==========================================================================
+   Animaciones cinematográficas
+   ========================================================================== */
+
+@keyframes aurora-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-4vw, 3vh, 0) scale(1.08); }
+  100% { transform: translate3d(3vw, -2vh, 0) scale(0.96); }
+}
+
+@keyframes grid-drift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 740px, 740px 0; }
+}
+
+@keyframes scan-down {
+  from { background-position: 0 -240px; }
+  to { background-position: 0 100vh; }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.72); }
+}
+
+@keyframes boot-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes toast-out {
+  to { opacity: 0; transform: translateY(-6px) scale(0.98); }
+}
+
+@keyframes marker-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(176, 38, 255, 0.18), 0 0 18px rgba(176, 38, 255, 0.8); }
+  50% { box-shadow: 0 0 0 9px rgba(176, 38, 255, 0.05), 0 0 26px rgba(176, 38, 255, 0.95); }
+}
+
+@keyframes request-ring {
+  0% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.35); }
+  70% { opacity: 0.2; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+}
+
+@keyframes flow-dot {
+  from { transform: translateX(0); opacity: 0; }
+  15% { opacity: 1; }
+  to { transform: translateX(18px); opacity: 0; }
+}
+
+@keyframes shimmer {
+  from { background-position: -320px 0; }
+  to { background-position: 320px 0; }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+@keyframes ring-expand {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Revelado progresivo — las escenas añaden .is-revealed desde JS */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.is-revealed .reveal,
+.reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal:nth-child(2) { transition-delay: 0.06s; }
+.reveal:nth-child(3) { transition-delay: 0.12s; }
+.reveal:nth-child(4) { transition-delay: 0.18s; }
+.reveal:nth-child(5) { transition-delay: 0.24s; }
+
+/* Pausa global */
+body.is-paused *,
+body.is-paused *::before,
+body.is-paused *::after {
+  animation-play-state: paused !important;
+}
+body.is-paused .bg-aurora,
+body.is-paused .bg-grid,
+body.is-paused .bg-scan {
+  animation-play-state: paused;
+}
+
+/* Indicador de carga de mapas */
+.map-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  background: rgba(9, 7, 17, 0.55);
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.map-loading.is-hidden {
+  opacity: 0;
+}
+.map-loading span {
+  width: 26px;
+  height: 26px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: boot-spin 0.8s linear infinite;
+}
+
+/* Destello de escena al entrar */
+.scene.is-active .scene__inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgba(176, 38, 255, 0.06) 50%, transparent 70%);
+  background-size: 250% 100%;
+  animation: scene-sheen 1.5s var(--ease);
+  pointer-events: none;
+  z-index: 20;
+}
+@keyframes scene-sheen {
+  from { background-position: 180% 0; opacity: 0.9; }
+  to { background-position: -60% 0; opacity: 0; }
+}
+
+/* Cursor en textos mono */
+.typing::after {
+  content: "▌";
+  color: var(--cyan);
+  animation: blink 1.05s step-end infinite;
+}
+
+/* Latido de nodos 3D simulado en HTML */
+.pulse-ring {
+  position: relative;
+}
+.pulse-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--cyan);
+  border-radius: inherit;
+  animation: ring-expand 2.4s ease-out infinite;
+  pointer-events: none;
+}
+
+/* Entrada de paneles */
+.scene.is-active .glass {
+  animation: panel-in 0.7s var(--ease) both;
+}
+.scene.is-active .glass:nth-of-type(2) {
+  animation-delay: 0.08s;
+}
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Marcador 3D fallback HTML */
+.hotspot {
+  position: absolute;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+}
+.hotspot__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 14px var(--cyan);
+}
+.hotspot__label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  background: rgba(9, 7, 17, 0.8);
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--line-soft);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-scan,
+  .bg-grid,
+  .bg-noise {
+    display: none;
+  }
+}

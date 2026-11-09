@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#090711">
+  <meta name="description" content="Presentación académica 3D interactiva: asignación del conductor más cercano con Quadtree, Haversine, heap y Dijkstra. USMP, Comas, Lima.">
+  <title>Conductor Cercano — USMP · Proyecto Integrador 2</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090711'/%3E%3Cpath d='M32 8 52 20v24L32 56 12 44V20z' fill='none' stroke='%23B026FF' stroke-width='3'/%3E%3Ccircle cx='32' cy='26' r='5' fill='%2300D9FF'/%3E%3Cpath d='M32 31v12M32 43l-8 5M32 43l8 5' stroke='%23B026FF' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="is-booting">
+  <a class="skip-link" href="#stage">Saltar al contenido de la escena</a>
+
+  <div id="app-bg" aria-hidden="true">
+    <div class="bg-aurora bg-aurora--violet"></div>
+    <div class="bg-aurora bg-aurora--cyan"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-scan"></div>
+    <div class="bg-noise"></div>
+  </div>
+  <div id="webgl" aria-hidden="true"></div>
+  <div id="cursor-glow" aria-hidden="true"></div>
+
+  <div id="boot" class="boot" role="status" aria-live="polite">
+    <div class="boot__mark" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="64" height="64"><path d="M32 5 55 18v28L32 59 9 46V18z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="32" cy="24" r="5.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M32 30v11M32 41l-9 6M32 41l9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <p class="boot__eyebrow">UNIVERSIDAD DE SAN MARTÍN DE PORRES · GRUPO 2</p>
+    <h1 class="boot__title">ASIGNACIÓN DEL<br>CONDUCTOR MÁS CERCANO</h1>
+    <div class="boot__bar" aria-hidden="true"><span id="boot-bar"></span></div>
+    <p class="boot__status" id="boot-status">Iniciando motor de simulación…</p>
+    <p class="boot__hint">Quadtree · Haversine · Heap · Dijkstra · OpenStreetMap</p>
+  </div>
+
+  <header class="topbar" id="topbar">
+    <a class="brand" href="#escena-1" id="brand-home" aria-label="Volver a la portada">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><path d="M32 5 55 18v28L32 59 9 46V18z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="32" cy="24" r="5" fill="currentColor"/><path d="M32 29v12M32 41l-9 6M32 41l9 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand__text">
+        <strong>CONDUCTOR CERCANO</strong>
+        <small>USMP · Algoritmos y Estructura de Datos II · Grupo 2</small>
+      </span>
+    </a>
+
+    <div class="topbar__meta">
+      <span class="topbar__scene" id="topbar-scene">01 / 17 — Portada</span>
+      <span class="topbar__live"><i></i>SIMULACIÓN LOCAL</span>
+    </div>
+
+    <div class="topbar__actions">
+      <button class="btn btn--ghost btn--sm topbar__presentation" id="btn-presentation" type="button" title="Modo sustentación de 15 minutos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.6 1.6M9 2h6"/></svg>
+        <span>Sustentación</span>
+      </button>
+      <button class="icon-btn" id="btn-help" type="button" title="Ayuda y atajos de teclado" aria-label="Ayuda">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 1 1 3.4 2c-.8.5-1.2 1-1.2 1.9M12 16.5v.2"/></svg>
+      </button>
+      <button class="icon-btn" id="btn-menu" type="button" title="Índice de escenas (M)" aria-label="Abrir índice" aria-controls="scene-menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="progress" aria-hidden="true"><span id="progress-fill"></span></div>
+
+  <main id="stage" class="stage" tabindex="-1">
+    <section class="scene" id="scene-cover" data-index="0" data-scene="cover" data-title="Portada" data-3d="true" aria-hidden="false">
+      <div class="scene__inner" id="scene-cover-root"></div>
+    </section>
+    <section class="scene" id="scene-problem" data-index="1" data-scene="problem" data-title="El problema real" data-3d="true" aria-hidden="true">
+      <div class="scene__inner" id="scene-problem-root"></div>
+    </section>
+    <section class="scene" id="scene-architecture" data-index="2" data-scene="architecture" data-title="Arquitectura del sistema" aria-hidden="true">
+      <div class="scene__inner" id="scene-architecture-root"></div>
+    </section>
+    <section class="scene" id="scene-network" data-index="3" data-scene="network" data-title="OpenStreetMap · Comas" aria-hidden="true">
+      <div class="scene__inner" id="scene-network-root"></div>
+    </section>
+    <section class="scene" id="scene-quadtree" data-index="4" data-scene="quadtree" data-title="Quadtree" data-3d="true" aria-hidden="true">
+      <div class="scene__inner" id="scene-quadtree-root"></div>
+    </section>
+    <section class="scene" id="scene-haversine" data-index="5" data-scene="haversine" data-title="Haversine" aria-hidden="true">
+      <div class="scene__inner" id="scene-haversine-root"></div>
+    </section>
+    <section class="scene" id="scene-heap" data-index="6" data-scene="heap" data-title="Heap y K vecinos" aria-hidden="true">
+      <div class="scene__inner" id="scene-heap-root"></div>
+    </section>
+    <section class="scene" id="scene-dijkstra" data-index="7" data-scene="dijkstra" data-title="Grafos y Dijkstra" data-3d="true" aria-hidden="true">
+      <div class="scene__inner" id="scene-dijkstra-root"></div>
+    </section>
+    <section class="scene" id="scene-eta" data-index="8" data-scene="eta" data-title="ETA" aria-hidden="true">
+      <div class="scene__inner" id="scene-eta-root"></div>
+    </section>
+    <section class="scene" id="scene-dispatch" data-index="9" data-scene="dispatch" data-title="Despachador" aria-hidden="true">
+      <div class="scene__inner" id="scene-dispatch-root"></div>
+    </section>
+    <section class="scene" id="scene-simulation" data-index="10" data-scene="simulation" data-title="Simulación de flota" aria-hidden="true">
+      <div class="scene__inner" id="scene-simulation-root"></div>
+    </section>
+    <section class="scene" id="scene-map" data-index="11" data-scene="map" data-title="Mapa interactivo" aria-hidden="true">
+      <div class="scene__inner" id="scene-map-root"></div>
+    </section>
+    <section class="scene" id="scene-benchmark" data-index="12" data-scene="benchmark" data-title="Benchmark" aria-hidden="true">
+      <div class="scene__inner" id="scene-benchmark-root"></div>
+    </section>
+    <section class="scene" id="scene-complexity" data-index="13" data-scene="complexity" data-title="Complejidad" aria-hidden="true">
+      <div class="scene__inner" id="scene-complexity-root"></div>
+    </section>
+    <section class="scene" id="scene-tests" data-index="14" data-scene="tests" data-title="Pruebas" aria-hidden="true">
+      <div class="scene__inner" id="scene-tests-root"></div>
+    </section>
+    <section class="scene" id="scene-comparison" data-index="15" data-scene="comparison" data-title="Comparación" aria-hidden="true">
+      <div class="scene__inner" id="scene-comparison-root"></div>
+    </section>
+    <section class="scene" id="scene-conclusions" data-index="16" data-scene="conclusions" data-title="Conclusiones" data-3d="true" aria-hidden="true">
+      <div class="scene__inner" id="scene-conclusions-root"></div>
+    </section>
+  </main>
+
+  <footer class="deckbar" id="deckbar" aria-label="Controles de navegación">
+    <div class="deckbar__group">
+      <button class="deckbar__nav" id="btn-prev" type="button" title="Escena anterior (←)" aria-label="Escena anterior">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        <span>Anterior</span>
+      </button>
+      <div class="deckbar__count" aria-live="polite"><span id="counter-current">01</span><span>/ 17</span></div>
+      <button class="deckbar__nav" id="btn-next" type="button" title="Escena siguiente (→)" aria-label="Escena siguiente">
+        <span>Siguiente</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <div class="deckbar__center">
+      <span class="deckbar__title" id="deckbar-title">Portada</span>
+      <span class="deckbar__chapter" id="deckbar-chapter">ACTO I · CONTEXTO</span>
+    </div>
+    <div class="deckbar__group deckbar__group--right">
+      <span class="deckbar__hint"><kbd>←</kbd><kbd>→</kbd> navegar · <kbd>Espacio</kbd> pausar</span>
+      <button class="deckbar__tool" id="btn-pause" type="button" title="Reproducir o pausar animaciones (Espacio)" aria-label="Pausar animaciones">
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+        <span>Pausar</span>
+      </button>
+      <button class="deckbar__tool" id="btn-fullscreen" type="button" title="Pantalla completa (F)" aria-label="Pantalla completa">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+        <span>Pantalla</span>
+      </button>
+    </div>
+  </footer>
+
+  <div class="drawer-backdrop" id="menu-backdrop" hidden></div>
+  <aside class="drawer" id="scene-menu" aria-label="Índice de escenas" aria-hidden="true" hidden>
+    <div class="drawer__header">
+      <div>
+        <p class="eyebrow">RECORRIDO DE LA EXPERIENCIA</p>
+        <h2>Índice</h2>
+      </div>
+      <button class="icon-btn" id="btn-menu-close" type="button" aria-label="Cerrar índice">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="drawer__progress"><span id="drawer-progress"></span></div>
+    <nav class="drawer__nav" id="menu-nav"></nav>
+    <div class="drawer__footer">
+      <div class="source-badge"><span class="source-badge__dot"></span><span id="drawer-source">Red vial: OpenStreetMap · Comas</span></div>
+      <p>Proyecto Integrador N.º 2 · Grupo 2<br>Universidad de San Martín de Porres</p>
+    </div>
+  </aside>
+
+  <dialog class="modal" id="help-dialog" aria-labelledby="help-title">
+    <div class="modal__head">
+      <div>
+        <p class="eyebrow">GUÍA RÁPIDA</p>
+        <h2 id="help-title">Cómo recorrer la experiencia</h2>
+      </div>
+      <button class="icon-btn" type="button" data-close-dialog aria-label="Cerrar ayuda">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="help-grid">
+        <div class="help-card">
+          <h3>Navegación</h3>
+          <ul class="key-list">
+            <li><kbd>→</kbd><span>Siguiente escena</span></li>
+            <li><kbd>←</kbd><span>Escena anterior</span></li>
+            <li><kbd>Espacio</kbd><span>Pausar / reanudar</span></li>
+            <li><kbd>F</kbd><span>Pantalla completa</span></li>
+            <li><kbd>M</kbd><span>Abrir índice</span></li>
+            <li><kbd>Esc</kbd><span>Cerrar paneles o salir de un modo</span></li>
+          </ul>
+        </div>
+        <div class="help-card">
+          <h3>Escenas 3D</h3>
+          <p>Arrastra para rotar, usa la rueda para acercar y el botón derecho para desplazar. En el Quadtree, haz clic para insertar conductores y arrastra para dibujar el rectángulo de búsqueda.</p>
+          <h3>Mapas</h3>
+          <p>Los mapas Leaflet tienen su propio zoom y desplazamiento. Los atajos de navegación se desactivan mientras el foco está en un mapa o en un campo de texto.</p>
+        </div>
+        <div class="help-card">
+          <h3>Rendimiento</h3>
+          <p>Si el equipo tiene una GPU integrada, reduce la calidad: se disminuyen partículas, luces y resolución de render sin afectar los algoritmos.</p>
+          <div class="segmented" id="quality-control" role="group" aria-label="Calidad gráfica">
+            <button type="button" data-quality="auto" class="is-active">Auto</button>
+            <button type="button" data-quality="high">Alta</button>
+            <button type="button" data-quality="low">Baja</button>
+          </div>
+        </div>
+        <div class="help-card help-card--wide">
+          <h3>Transparencia académica</h3>
+          <p>Los mapas y la red vial provienen de OpenStreetMap (Comas, Lima) y están almacenados localmente. Las mediciones de la escena 13 se ejecutan en este navegador y están etiquetadas como tales; no son el benchmark de Python del informe. Las pruebas de la escena 15 son pruebas JavaScript de esta demostración, no sustituyen los casos de pytest exigidos en el repositorio Python.</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal__foot">
+      <span class="mono" id="help-version">v1.0 · Three.js + Leaflet + Chart.js</span>
+      <button class="btn btn--primary btn--sm" type="button" data-close-dialog>Cerrar</button>
+    </div>
+  </dialog>
+
+  <dialog class="modal modal--presentation" id="presentation-dialog" aria-labelledby="pres-title">
+    <div class="modal__head">
+      <div>
+        <p class="eyebrow">SUSTENTACIÓN · 15 MINUTOS</p>
+        <h2 id="pres-title">Modo sustentación</h2>
+      </div>
+      <button class="icon-btn" type="button" data-close-pres aria-label="Cerrar modo sustentación">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="pres-layout">
+        <div class="pres-clock">
+          <span class="pres-clock__label">TIEMPO RESTANTE</span>
+          <strong id="pres-time">15:00</strong>
+          <span class="pres-clock__phase" id="pres-phase">Demostración en vivo · 5 min</span>
+          <div class="pres-clock__actions">
+            <button class="btn btn--primary" id="pres-toggle" type="button">Iniciar</button>
+            <button class="btn btn--ghost" id="pres-reset" type="button">Reiniciar</button>
+          </div>
+        </div>
+        <div class="pres-route">
+          <h3>Recorrido recomendado</h3>
+          <ol id="pres-route-list"></ol>
+        </div>
+        <div class="pres-notes">
+          <h3>Reparto sugerido</h3>
+          <ul>
+            <li><strong>0–5 min · Demo.</strong> Portada, problema, red real, Quadtree, Haversine, K vecinos, Dijkstra y despachador.</li>
+            <li><strong>5–10 min · Preguntas.</strong> Benchmark, complejidad, pruebas y comparación con H3. Cada integrante defiende cualquier módulo.</li>
+            <li><strong>10–15 min · Modificación en vivo.</strong> Usa la simulación y el Quadtree para cambiar K, semilla o densidad; explica el efecto en las métricas.</li>
+          </ul>
+          <p class="note">El cronómetro es una ayuda de ensayo. No modifica ni bloquea la navegación.</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal__foot">
+      <span class="mono">Fases: 00:00 demo · 05:00 preguntas · 10:00 modificación</span>
+      <button class="btn btn--primary btn--sm" id="pres-start-route" type="button">Ir al inicio del recorrido</button>
+    </div>
+  </dialog>
+
+  <div class="pres-pill" id="pres-pill" hidden>
+    <span class="pres-pill__dot"></span>
+    <strong id="pres-pill-time">15:00</strong>
+    <span id="pres-pill-phase">Demo</span>
+    <button type="button" id="pres-pill-open" class="pres-pill__btn">Abrir</button>
+  </div>
+
+  <div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+  <noscript><p class="noscript">Esta presentación necesita JavaScript habilitado.</p></noscript>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/chart.umd.js"></script>
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="vendor/katex/katex.min.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/three.module.js",
+        "three/addons/": "./vendor/three/"
+      }
+    }
+  </script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

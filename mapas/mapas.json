@@ -1,0 +1,41 @@
+[
+ {
+  "archivo": "asignacion_1.html",
+  "descripcion": "Sector norte (cerca de la Av. Túpac Amaru)",
+  "pasajero_id": 1,
+  "lat": -11.9365,
+  "lon": -77.059,
+  "conductor_id": 105,
+  "eta_min": 0.51,
+  "distancia_vial_m": 256.6,
+  "distancia_haversine_m": 154.3,
+  "mas_cercano_en_linea_recta_id": 217,
+  "candidatos": 5
+ },
+ {
+  "archivo": "asignacion_2.html",
+  "descripcion": "Sector centro-este",
+  "pasajero_id": 2,
+  "lat": -11.9445,
+  "lon": -77.053,
+  "conductor_id": 99,
+  "eta_min": 0.2,
+  "distancia_vial_m": 101.3,
+  "distancia_haversine_m": 110.9,
+  "mas_cercano_en_linea_recta_id": 120,
+  "candidatos": 5
+ },
+ {
+  "archivo": "asignacion_3.html",
+  "descripcion": "Sector suroeste",
+  "pasajero_id": 3,
+  "lat": -11.948,
+  "lon": -77.063,
+  "conductor_id": 160,
+  "eta_min": 0.25,
+  "distancia_vial_m": 125.7,
+  "distancia_haversine_m": 140.5,
+  "mas_cercano_en_linea_recta_id": 16,
+  "candidatos": 5
+ }
+]

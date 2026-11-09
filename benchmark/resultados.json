@@ -1,0 +1,389 @@
+{
+ "fecha": "2026-11-09T15:46:11",
+ "metodologia": {
+  "semilla": 2024,
+  "repeticiones_por_tamano": 30,
+  "k": 5,
+  "tamanos": [
+   300,
+   3000,
+   30000
+  ],
+  "capacidad_quadtree": 8,
+  "proporcion_ocupados": 0.3,
+  "descripcion": "Para cada tamaño se genera una flota con semilla fija sobre la red real y se reparte cada conductor a lo largo de su calle. Se eligen 30 pasajeros al azar en intersecciones. Cada consulta busca los k=5 conductores DISPONIBLES más cercanos (Haversine) con ambos métodos; se mide con time.perf_counter y se reporta mediana y p95. Se verifica que ambos métodos devuelvan los mismos conductores.",
+  "limitaciones": [
+   "Tiempos de Python en un solo equipo: dependen de CPU, carga y versión.",
+   "La construcción del Quadtree no se incluye en el tiempo de consulta (se reporta por separado).",
+   "La ventaja del Quadtree depende de la distribución espacial; con flotas pequeñas o muy concentradas la diferencia se reduce.",
+   "NetworkX se usa solo como referencia de validación; su implementación tiene otras optimizaciones, por lo que el tiempo no compara solo el algoritmo."
+  ]
+ },
+ "entorno": {
+  "python": "3.12.9",
+  "sistema": "Windows-11-10.0.26200-SP0",
+  "procesador": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD"
+ },
+ "busqueda": [
+  {
+   "conductores": 300,
+   "consultas": 30,
+   "k": 5,
+   "quadtree": {
+    "media_ms": 0.11798999427507322,
+    "mediana_ms": 0.10665005538612604,
+    "p95_ms": 0.21879980340600014,
+    "min_ms": 0.05779997445642948,
+    "max_ms": 0.24909991770982742,
+    "desv_ms": 0.05140554707637538
+   },
+   "lineal": {
+    "media_ms": 0.49020336009562016,
+    "mediana_ms": 0.47915009781718254,
+    "p95_ms": 0.6001000292599201,
+    "min_ms": 0.46040001325309277,
+    "max_ms": 0.6585000082850456,
+    "desv_ms": 0.042272968796012986
+   },
+   "aceleracion_mediana": 4.492731823555288,
+   "construccion_quadtree_ms": 1.6487999819219112,
+   "quadtree_nodos": 145,
+   "quadtree_profundidad": 5,
+   "elementos_revisados_quadtree": 40.8,
+   "elementos_revisados_lineal": 300,
+   "ampliaciones_promedio": 1.3,
+   "resultados_identicos": true
+  },
+  {
+   "conductores": 3000,
+   "consultas": 30,
+   "k": 5,
+   "quadtree": {
+    "media_ms": 0.529086667423447,
+    "mediana_ms": 0.5023500416427851,
+    "p95_ms": 0.8345998357981443,
+    "min_ms": 0.27439999394118786,
+    "max_ms": 0.9997999295592308,
+    "desv_ms": 0.17273113184584257
+   },
+   "lineal": {
+    "media_ms": 5.5403299707298475,
+    "mediana_ms": 5.052600055932999,
+    "p95_ms": 8.412700146436691,
+    "min_ms": 4.5640000607818365,
+    "max_ms": 9.286999935284257,
+    "desv_ms": 1.1921003219828687
+   },
+   "aceleracion_mediana": 10.057927017204948,
+   "construccion_quadtree_ms": 22.688400000333786,
+   "quadtree_nodos": 1313,
+   "quadtree_profundidad": 8,
+   "elementos_revisados_quadtree": 159.46666666666667,
+   "elementos_revisados_lineal": 3000,
+   "ampliaciones_promedio": 1.0,
+   "resultados_identicos": true
+  },
+  {
+   "conductores": 30000,
+   "consultas": 30,
+   "k": 5,
+   "quadtree": {
+    "media_ms": 4.810216689171891,
+    "mediana_ms": 4.611399956047535,
+    "p95_ms": 8.030100027099252,
+    "min_ms": 2.2525000385940075,
+    "max_ms": 8.41689994558692,
+    "desv_ms": 1.3382544685713578
+   },
+   "lineal": {
+    "media_ms": 50.57336670191338,
+    "mediana_ms": 47.44220001157373,
+    "p95_ms": 67.45630013756454,
+    "min_ms": 45.74630013667047,
+    "max_ms": 96.57850000075996,
+    "desv_ms": 9.496721823899929
+   },
+   "aceleracion_mediana": 10.288025429101316,
+   "construccion_quadtree_ms": 334.81550007127225,
+   "quadtree_nodos": 15417,
+   "quadtree_profundidad": 12,
+   "elementos_revisados_quadtree": 1290.6666666666667,
+   "elementos_revisados_lineal": 30000,
+   "ampliaciones_promedio": 1.0,
+   "resultados_identicos": true
+  }
+ ],
+ "dijkstra": {
+  "pares": [
+   {
+    "origen": 6493293652,
+    "destino": 1272935812,
+    "distancia_propia_m": 368.79,
+    "distancia_networkx_m": 368.79,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.1664001028984785,
+    "tiempo_networkx_ms": 0.4851999692618847,
+    "nodos_explorados": 44
+   },
+   {
+    "origen": 1272936794,
+    "destino": 1272936000,
+    "distancia_propia_m": 1613.4730000000002,
+    "distancia_networkx_m": 1613.4730000000002,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 2.2684000432491302,
+    "tiempo_networkx_ms": 2.381599973887205,
+    "nodos_explorados": 637
+   },
+   {
+    "origen": 1314905110,
+    "destino": 1272936531,
+    "distancia_propia_m": 1735.2330000000002,
+    "distancia_networkx_m": 1735.2330000000002,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.8245999924838543,
+    "tiempo_networkx_ms": 0.8976999670267105,
+    "nodos_explorados": 310
+   },
+   {
+    "origen": 12876135052,
+    "destino": 1272936361,
+    "distancia_propia_m": 972.5749999999999,
+    "distancia_networkx_m": 972.5749999999999,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.7354000117629766,
+    "tiempo_networkx_ms": 0.7412000559270382,
+    "nodos_explorados": 285
+   },
+   {
+    "origen": 10757511250,
+    "destino": 1273121932,
+    "distancia_propia_m": 2182.0099999999998,
+    "distancia_networkx_m": 2182.0099999999998,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 2.7216000016778708,
+    "tiempo_networkx_ms": 4.638599930331111,
+    "nodos_explorados": 1038
+   },
+   {
+    "origen": 1314905522,
+    "destino": 12619908346,
+    "distancia_propia_m": 3247.5150000000003,
+    "distancia_networkx_m": 3247.5150000000003,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 3.5467001143842936,
+    "tiempo_networkx_ms": 2.5188999716192484,
+    "nodos_explorados": 906
+   },
+   {
+    "origen": 1272936132,
+    "destino": 1272936818,
+    "distancia_propia_m": 936.945,
+    "distancia_networkx_m": 936.945,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.6669999565929174,
+    "tiempo_networkx_ms": 0.41390000842511654,
+    "nodos_explorados": 163
+   },
+   {
+    "origen": 1272936947,
+    "destino": 11425979681,
+    "distancia_propia_m": 625.15,
+    "distancia_networkx_m": 625.15,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.2664998173713684,
+    "tiempo_networkx_ms": 0.2756998874247074,
+    "nodos_explorados": 106
+   },
+   {
+    "origen": 1272006239,
+    "destino": 1272936041,
+    "distancia_propia_m": 1792.703,
+    "distancia_networkx_m": 1792.703,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 1.752499956637621,
+    "tiempo_networkx_ms": 2.254399936646223,
+    "nodos_explorados": 811
+   },
+   {
+    "origen": 6466765693,
+    "destino": 1272935574,
+    "distancia_propia_m": 2017.2650000000003,
+    "distancia_networkx_m": 2017.2650000000003,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 1.3784000184386969,
+    "tiempo_networkx_ms": 1.925300108268857,
+    "nodos_explorados": 601
+   },
+   {
+    "origen": 12876135049,
+    "destino": 1272936078,
+    "distancia_propia_m": 1320.826,
+    "distancia_networkx_m": 1320.826,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.972700072452426,
+    "tiempo_networkx_ms": 1.063099829480052,
+    "nodos_explorados": 410
+   },
+   {
+    "origen": 1314905336,
+    "destino": 1271067351,
+    "distancia_propia_m": 1755.39,
+    "distancia_networkx_m": 1755.39,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 1.4788999687880278,
+    "tiempo_networkx_ms": 1.3892999850213528,
+    "nodos_explorados": 520
+   },
+   {
+    "origen": 1273121791,
+    "destino": 1314905542,
+    "distancia_propia_m": 2103.036,
+    "distancia_networkx_m": 2103.036,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 1.585999969393015,
+    "tiempo_networkx_ms": 1.8768999725580215,
+    "nodos_explorados": 734
+   },
+   {
+    "origen": 6300533682,
+    "destino": 1272935179,
+    "distancia_propia_m": 253.047,
+    "distancia_networkx_m": 253.047,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.06979983299970627,
+    "tiempo_networkx_ms": 0.07119984365999699,
+    "nodos_explorados": 27
+   },
+   {
+    "origen": 1272935499,
+    "destino": 1272936928,
+    "distancia_propia_m": 861.777,
+    "distancia_networkx_m": 861.777,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.4141000099480152,
+    "tiempo_networkx_ms": 0.45129982754588127,
+    "nodos_explorados": 186
+   },
+   {
+    "origen": 1296961173,
+    "destino": 1272936950,
+    "distancia_propia_m": 1603.717,
+    "distancia_networkx_m": 1603.717,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.699399970471859,
+    "tiempo_networkx_ms": 0.6663999520242214,
+    "nodos_explorados": 287
+   },
+   {
+    "origen": 1273121563,
+    "destino": 1272936001,
+    "distancia_propia_m": 1056.998,
+    "distancia_networkx_m": 1056.998,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.4499999340623617,
+    "tiempo_networkx_ms": 0.49620005302131176,
+    "nodos_explorados": 211
+   },
+   {
+    "origen": 1272936918,
+    "destino": 3063511402,
+    "distancia_propia_m": 427.17,
+    "distancia_networkx_m": 427.17,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.08040014654397964,
+    "tiempo_networkx_ms": 0.08750008419156075,
+    "nodos_explorados": 33
+   },
+   {
+    "origen": 1314905402,
+    "destino": 1272936856,
+    "distancia_propia_m": 1321.5759999999998,
+    "distancia_networkx_m": 1321.5759999999998,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.7835000287741423,
+    "tiempo_networkx_ms": 0.90560014359653,
+    "nodos_explorados": 356
+   },
+   {
+    "origen": 1272936102,
+    "destino": 1306578865,
+    "distancia_propia_m": 2037.8649999999998,
+    "distancia_networkx_m": 2037.8649999999998,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 2.6119998656213284,
+    "tiempo_networkx_ms": 2.6237000711262226,
+    "nodos_explorados": 888
+   },
+   {
+    "origen": 1272936236,
+    "destino": 1272936031,
+    "distancia_propia_m": 2535.4780000000005,
+    "distancia_networkx_m": 2535.4780000000005,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 1.2778001837432384,
+    "tiempo_networkx_ms": 1.2409999035298824,
+    "nodos_explorados": 507
+   },
+   {
+    "origen": 1271066301,
+    "destino": 1272936205,
+    "distancia_propia_m": 2756.687,
+    "distancia_networkx_m": 2756.687,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 1.6385999042540789,
+    "tiempo_networkx_ms": 2.054999815300107,
+    "nodos_explorados": 749
+   },
+   {
+    "origen": 769223674,
+    "destino": 1272936465,
+    "distancia_propia_m": 739.6259999999999,
+    "distancia_networkx_m": 739.6259999999999,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.37880009040236473,
+    "tiempo_networkx_ms": 0.43100002221763134,
+    "nodos_explorados": 165
+   },
+   {
+    "origen": 10766553341,
+    "destino": 1272936869,
+    "distancia_propia_m": 1465.5610000000001,
+    "distancia_networkx_m": 1465.5610000000001,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 0.5452001933008432,
+    "tiempo_networkx_ms": 0.6105999927967787,
+    "nodos_explorados": 257
+   },
+   {
+    "origen": 1314905913,
+    "destino": 1272935015,
+    "distancia_propia_m": 3137.568,
+    "distancia_networkx_m": 3137.568,
+    "diferencia_m": 0.0,
+    "tiempo_propio_ms": 1.932100160047412,
+    "tiempo_networkx_ms": 2.409999957308173,
+    "nodos_explorados": 937
+   }
+  ],
+  "todas_iguales": true,
+  "propio": {
+   "media_ms": 1.1698720138520002,
+   "mediana_ms": 0.8245999924838543,
+   "p95_ms": 2.7216000016778708,
+   "min_ms": 0.06979983299970627,
+   "max_ms": 3.5467001143842936,
+   "desv_ms": 0.8967394046346672
+  },
+  "networkx": {
+   "media_ms": 1.316451970487833,
+   "mediana_ms": 0.90560014359653,
+   "p95_ms": 2.6237000711262226,
+   "min_ms": 0.07119984365999699,
+   "max_ms": 4.638599930331111,
+   "desv_ms": 1.0612808619576792
+  },
+  "nodos_red": 1106,
+  "aristas_red": 2805
+ }
+}

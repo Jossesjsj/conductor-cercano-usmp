@@ -1,0 +1,9 @@
+# Dependencias mínimas para publicar la presentación en un servidor web (Render, etc.).
+# La red se lee de datos/comas_red.json, así que no se necesita OSMnx en producción.
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.7
+httpx>=0.27
+networkx>=3.2
+matplotlib>=3.8
+pytest>=8.0
