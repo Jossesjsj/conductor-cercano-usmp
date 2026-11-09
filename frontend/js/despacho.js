@@ -177,6 +177,7 @@ export function crearPanelDespacho({ city, sim, api, compacto = false }) {
       toast(`El conductor ${id} recogió al pasajero.`, 'ok', 'LLEGADA');
       sim.resaltar({ asignado: null, candidatos: [] });
       city.ponerPasajero(null);
+      city.limpiar('overlay'); city.limpiar('rutas');  // viaje iniciado: se retiran las líneas de búsqueda
     }
   });
 
