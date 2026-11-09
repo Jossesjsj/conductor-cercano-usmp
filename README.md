@@ -79,6 +79,8 @@ de `publicar.bat` siga abierta** y la laptop tenga Internet; cada ejecución gen
 
 ### Opción B · Link permanente en Render (requiere cuenta gratuita)
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Jossesjsj/conductor-cercano-usmp)
+
 1. Sube el proyecto a GitHub (el documento del curso ya exige un repositorio).
 2. En https://render.com → **New + → Blueprint** → elige el repositorio.
 3. Render lee `render.yaml`, instala `requirements-web.txt` y publica un link fijo
