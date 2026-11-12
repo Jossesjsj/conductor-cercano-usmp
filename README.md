@@ -8,7 +8,7 @@ Curso: **Algoritmos y Estructura de Datos II** · Ciclo **IV**
 Integrantes:
 1. Antezana Vargas Jorge Jose
 2. Andres Bardales Moreno
-3. Vanessa Guerrero Yaniz
+3. Vanessa Guerrero Yañez
 
 Sistema completo en Python que, sobre la **red vial real de Comas (Lima)**, simula una flota de
 taxis y asigna a cada pasajero el conductor con **menor tiempo estimado de llegada**:
@@ -17,7 +17,7 @@ taxis y asigna a cada pasajero el conductor con **menor tiempo estimado de llega
 Pasajero → Quadtree → Haversine → Heap → Dijkstra → ETA → Conductor asignado
 ```
 
-Incluye una **presentación web 3D interactiva de 18 diapositivas** (Three.js), conectada al
+Incluye una **presentación web 3D interactiva de 19 diapositivas** (Three.js), conectada al
 backend FastAPI. Todos los cálculos que se muestran vienen de Python.
 
 ---
@@ -100,14 +100,14 @@ abren el link ven y modifican la misma flota.
 | Índice de secciones | `M` o ☰ |
 | Modo diapositivas ↔ web desplazable | botón superior o `S` (sin recargar) |
 | **Modo exposición** | botón o `E`: vista limpia, pantalla completa, navegación discreta |
-| **Demostración rápida (≈5 min)** | botón o `D`: Portada → Red vial → Quadtree → Heap → Dijkstra → Despachador → Mapa → Benchmark → Cierre |
+| **Demostración rápida (≈5 min)** | botón o `D`: Portada → Red vial → Quadtree → Heap → Dijkstra → Despachador → Benchmark → Cierre |
 | Notas y cronómetro de 15 min | `N` o botón «Notas» (fases: demo, preguntas, modificación) |
 | Rendimiento reducido (GPU limitada) | botón ⚡ |
 
 En modo desplazable, la rueda del mouse recorre la página; para hacer zoom en un mapa hay que
 hacer clic dentro de él primero (evita que el mapa "robe" el scroll).
 
-### Las 18 diapositivas
+### Las 19 diapositivas
 
 | # | Sección | Interacción real |
 |---|---|---|
@@ -123,12 +123,13 @@ hacer clic dentro de él primero (evita que el mapa "robe" el scroll).
 | 10 | ETA | velocidad configurable, tabla y gráfico; búsqueda de un caso donde el más cercano no gana |
 | 11 | Despachador | clic / coordenadas / dirección, pasos 2-3-4 o flujo completo, errores claros |
 | 12 | Simulación | automático / paso a paso, velocidad, semilla, gráfico de estados por turno |
-| 13 | Mapa interactivo | todos los controles de cámara, capas y simulación; seguir al taxi |
-| 14 | Benchmark | resultados medidos, botón para re-ejecutar (proceso aparte) |
-| 15 | Complejidad | tabla Big-O justificada + teoría vs. mediciones |
-| 16 | Pruebas | ejecuta pytest y muestra cada caso y la cobertura de requisitos |
-| 17 | Comparación | Quadtree vs. H3, S2, Geohash, R-tree; cuadrados vs. hexágonos |
-| 18 | Conclusiones | resumen con datos medidos, mapas Folium y demostración final |
+| 13 | Benchmark | resultados medidos, botón para re-ejecutar (proceso aparte) |
+| 14 | Complejidad | tabla Big-O justificada + teoría vs. mediciones |
+| 15 | Pruebas | ejecuta pytest y muestra cada caso y la cobertura de requisitos |
+| 16 | Comparación | Quadtree vs. H3, S2, Geohash, R-tree; cuadrados vs. hexágonos |
+| 17 | H3 experimental | malla hexagonal propia con la flota real: anillos k-ring, radio de celda, comparación con el Quadtree del backend |
+| 18 | CDN | PoP más cercano (Haversine), MISS → origen, HIT en el borde, TTL y purga; latencias estimadas |
+| 19 | Conclusiones | resumen con datos medidos, mapas Folium y demostración final |
 
 ## 4. Estructura
 

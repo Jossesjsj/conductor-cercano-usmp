@@ -28,7 +28,7 @@ URL_DEMO = "http://127.0.0.1:8000"
 BG, BG2 = RGBColor(0x05, 0x08, 0x16), RGBColor(0x0A, 0x10, 0x22)
 CIAN, VIOLETA, MAGENTA = RGBColor(0x00, 0xD9, 0xFF), RGBColor(0x8B, 0x5C, 0xF6), RGBColor(0xC0, 0x26, 0xD3)
 BLANCO, GRIS, VERDE = RGBColor(0xFF, 0xFF, 0xFF), RGBColor(0xA8, 0xB3, 0xCC), RGBColor(0x22, 0xE3, 0x9B)
-INTEGRANTES = ["Antezana Vargas Jorge Jose", "Andres Bardales Moreno", "Vanessa Guerrero Yaniz"]
+INTEGRANTES = ["Antezana Vargas Jorge Jose", "Andres Bardales Moreno", "Vanessa Guerrero Yañez"]
 
 
 def leer_datos() -> dict:
@@ -145,7 +145,7 @@ class Mazo:
         self.texto(s, 0.6, 0.7, 11.6, 0.9, titulo, 32, BLANCO, True, "Segoe UI Semibold")
         self.texto(s, 11.9, 0.35, 0.9, 0.6, f"{self.n:02d}", 26, RGBColor(0x1F, 0x4E, 0x7A), True,
                    alinear=PP_ALIGN.RIGHT)
-        barra = s.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(0), Inches(7.42), Inches(13.333 * self.n / 18), Inches(0.08))
+        barra = s.shapes.add_shape(MSO_SHAPE.RECTANGLE, Inches(0), Inches(7.42), Inches(13.333 * self.n / 19), Inches(0.08))
         barra.fill.solid()
         barra.fill.fore_color.rgb = CIAN
         barra.line.fill.background()
@@ -260,14 +260,7 @@ def construir() -> Path:
         "Reinicio reproducible con semilla configurable.",
         "La animación sigue exactamente los puntos calculados por Python.",
     ], 12, "", rec)
-    m.estandar("Demostración", "Mapa interactivo de Comas", [
-        "Zoom, rotación, vista superior/isométrica, centrar, restablecer, seguir taxi.",
-        "Mostrar u ocultar edificios, conductores, rutas, búsqueda y Quadtree de la flota.",
-        "«Solicitar taxi» ejecuta todo el flujo y la cámara sigue al taxi asignado.",
-        f"Abrir en vivo: {URL_DEMO}/#s-13",
-    ], 13, "", rec)
-
-    # 14 · Benchmark ---------------------------------------------------------
+    # 13 · Benchmark ---------------------------------------------------------
     s = m.nueva("RF-09: mediciones reales de benchmark/resultados.json. Leer metodología y limitaciones.")
     m.encabezado(s, "Resultados · RF-09", "Benchmark real: lineal vs Quadtree")
     if b:
@@ -295,7 +288,7 @@ def construir() -> Path:
     else:
         m.texto(s, 0.6, 2, 12, 1, "Benchmark pendiente de ejecutar: python -m benchmark.ejecutar_benchmark", 18, GRIS)
 
-    # 15 · Complejidad ---------------------------------------------------------
+    # 14 · Complejidad ---------------------------------------------------------
     s = m.nueva("No son garantías absolutas: dependen de la distribución espacial.")
     m.encabezado(s, "Resultados · análisis Big-O", "Complejidad por operación")
     filas = [["Operación", "Promedio", "Peor caso"],
@@ -331,16 +324,32 @@ def construir() -> Path:
         "Sin disponibles, Haversine conocido, Dijkstra válido, sin ruta, sin conexión vial.",
         "Menor ETA, Quadtree en turnos, semilla reproducible, endpoints FastAPI.",
         "E2E con Playwright: abrir, navegar, cambiar de modo, solicitar taxi, errores, reiniciar.",
-    ], 16, "", rec)
+    ], 15, "", rec)
     m.estandar("Contexto · industria", "Quadtree frente a H3, S2, Geohash y R-tree", [
         "H3 (Uber): hexágonos jerárquicos; 6 vecinos equidistantes.",
         "S2 (Google): esfera → cubo → curva de Hilbert.",
         "Geohash (Redis): cadena por prefijos; problema en bordes.",
         "R-tree (PostGIS): rectángulos que se solapan; ideal en disco y para polígonos.",
         "Misma idea: dividir el espacio para buscar solo donde importa. No son implementaciones idénticas.",
-    ], 17, "", rec)
+    ], 16, "", rec)
+    m.estandar("Contexto · experimento", "H3 experimental: la flota en hexágonos", [
+        "Malla hexagonal propia (coordenadas axiales) sobre el plano proyectado de Comas; sin la biblioteca h3.",
+        "Indexar: cada conductor cae en una celda en O(1); el color indica cuántos hay por celda.",
+        "Buscar: celda del pasajero y anillos de 6, 12, 18… celdas hasta tener k disponibles.",
+        "Un anillo extra si alguien no visto aún podría estar más cerca → resultado exacto.",
+        "Se compara en vivo con el Quadtree del backend: mismos candidatos, otra forma de recorrer el espacio.",
+        "H3 real: icosaedro, 16 resoluciones, ID de 64 bits por celda.",
+    ], 17, "Colocar un pasajero, cambiar el radio de celda y pulsar «Comparar con Quadtree».", rec)
+    m.estandar("Contexto · infraestructura web", "CDN: el contenido, cerca del usuario", [
+        "CDN = red de servidores de borde (PoP) con copias del contenido estático.",
+        "1. DNS / anycast envía al usuario al PoP más cercano (otro problema de vecino más cercano).",
+        "2. MISS: el PoP pide el archivo al origen y lo guarda según Cache-Control (TTL).",
+        "3. HIT: los siguientes usuarios cercanos reciben la copia del borde, sin ir al origen.",
+        "Purgar la caché obliga a traer la nueva versión.",
+        "En el proyecto: librerías locales en frontend/vendor; Folium usa jsDelivr, cdnjs y teselas de CARTO.",
+    ], 18, "Pedir app.js desde Comas dos veces: MISS y luego HIT. Latencias estimadas, no medidas.", rec)
 
-    # 18 · Conclusiones -------------------------------------------------------
+    # 19 · Conclusiones -------------------------------------------------------
     con = []
     if bus:
         ul, pr = bus[-1], bus[0]
@@ -353,8 +362,8 @@ def construir() -> Path:
     con.append(f"{len(d['mapas'])} mapas Folium generados en mapas/ (RF-07).")
     con.append("El más cercano en línea recta no siempre llega primero: se asigna por ETA.")
     con.append("Limitaciones: velocidad constante, sin tráfico; alturas ilustrativas; Nominatim requiere Internet.")
-    m.estandar("Cierre", "Resultados, conclusiones y demostración final", con, 18,
-               f"Demostración final: abrir {URL_DEMO}/#s-18 y pulsar «Iniciar solicitud completa».", rec)
+    m.estandar("Cierre", "Resultados, conclusiones y demostración final", con, 19,
+               f"Demostración final: abrir {URL_DEMO}/#s-19 y pulsar «Iniciar solicitud completa».", rec)
 
     SALIDA.parent.mkdir(exist_ok=True)
     m.prs.save(SALIDA)

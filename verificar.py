@@ -111,15 +111,15 @@ def _():
     return f"30 000: lineal {u['lineal']['mediana_ms']:.2f} ms vs Quadtree {u['quadtree']['mediana_ms']:.2f} ms ({r['fecha'][:10]})"
 
 
-@comprobar("Presentación web: 18 diapositivas")
+@comprobar("Presentación web: 19 diapositivas")
 def _():
     idx = (RAIZ / "frontend" / "js" / "slides" / "index.js").read_text(encoding="utf-8")
     n = len(re.findall(r"^import s\d\d ", idx, re.M))
-    assert n == 18, n
+    assert n == 19, n
     texto = " ".join(p.read_text(encoding="utf-8").lower() for p in (RAIZ / "frontend" / "js").rglob("*.js"))
     for prohibida in ["próximamente", "contenido pendiente", "demo placeholder", "todavía no está implementada"]:
         assert prohibida not in texto, prohibida
-    return "frontend/index.html + js/slides/s01…s18"
+    return "frontend/index.html + js/slides/s01…s19"
 
 
 @comprobar("PowerPoint complementario")
@@ -127,11 +127,11 @@ def _():
     from pptx import Presentation
     ruta = RAIZ / "entregables" / "Presentacion_Conductor_Cercano_USMP.pptx"
     p = Presentation(ruta)
-    assert len(p.slides) == 18, len(p.slides)
+    assert len(p.slides) == 19, len(p.slides)
     texto = " ".join(sh.text_frame.text for sh in p.slides[0].shapes if sh.has_text_frame)
-    for nombre in ["Antezana Vargas Jorge Jose", "Andres Bardales Moreno", "Vanessa Guerrero Yaniz"]:
+    for nombre in ["Antezana Vargas Jorge Jose", "Andres Bardales Moreno", "Vanessa Guerrero Yañez"]:
         assert nombre in texto, nombre
-    return f"{ruta.name} · 18 diapositivas · integrantes correctos"
+    return f"{ruta.name} · 19 diapositivas · integrantes correctos"
 
 
 def pytest_(args):

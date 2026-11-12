@@ -58,10 +58,10 @@ def ir(pag, numero):
 
 
 def test_abre_presentacion_con_portada_e_integrantes(pagina):
-    assert pagina.locator(".slide").count() == 18
+    assert pagina.locator(".slide").count() == 19
     portada = pagina.locator("#s-01").inner_text()
     for texto in ["UNIVERSIDAD DE SAN MARTÍN DE PORRES", "PROYECTO INTEGRADOR N.º 2",
-                  "Antezana Vargas Jorge Jose", "Andres Bardales Moreno", "Vanessa Guerrero Yaniz",
+                  "Antezana Vargas Jorge Jose", "Andres Bardales Moreno", "Vanessa Guerrero Yañez",
                   "Algoritmos y Estructura de Datos II"]:
         assert texto in portada
     assert pagina.locator("#s-01 canvas").count() == 1, "la escena 3D debe estar montada"
@@ -88,12 +88,12 @@ def test_cambiar_de_modo_sin_recargar(pagina):
 
 
 def test_solicitar_taxi_flujo_completo(pagina):
-    ir(pagina, 13)
-    boton = pagina.locator("#s-13 button", has_text="Solicitar taxi")
+    ir(pagina, 11)
+    boton = pagina.locator("#s-11 button", has_text="Solicitar taxi")
     boton.click()
-    pagina.locator("#s-13 .log .ok", has_text="Asignado conductor").wait_for(timeout=30_000)
-    assert pagina.locator("#s-13 .cand.best").count() == 1
-    assert pagina.locator("#s-13 .pipe-step.is-done").count() == 7
+    pagina.locator("#s-11 .log .ok", has_text="Asignado conductor").wait_for(timeout=30_000)
+    assert pagina.locator("#s-11 .cand.best").count() == 1
+    assert pagina.locator("#s-11 .pipe-step.is-done").count() == 7
 
 
 def test_error_claro_con_coordenada_fuera_de_zona(pagina):

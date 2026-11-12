@@ -8,7 +8,7 @@ import { SLIDES } from './slides/index.js';
 
 const city = new City();
 city.conectarSim(sim);
-const RECORRIDO = [0, 3, 5, 7, 8, 10, 12, 13, 17]; // demostración rápida (≈5 min)
+const RECORRIDO = [0, 3, 5, 7, 8, 10, 12, 18]; // demostración rápida (≈5 min)
 const estado = { actual: -1, modo: 'slides', recorrido: false, instancias: [] };
 const deck = $('#deck');
 

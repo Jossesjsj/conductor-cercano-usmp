@@ -48,7 +48,7 @@ export default {
           ds.push({ label: 'Quadtree medido', data: mapa('quadtree'), borderColor: '#00D9FF', backgroundColor: '#00D9FF', pointRadius: 6, borderWidth: 3, spanGaps: true });
           const ul = b[b.length - 1];
           obs.textContent = `Flota ×100 (300 → 30 000): lineal ×${(ul.lineal.mediana_ms / b[0].lineal.mediana_ms).toFixed(0)}, Quadtree ×${(ul.quadtree.mediana_ms / b[0].quadtree.mediana_ms).toFixed(0)}.`;
-        } else obs.textContent = 'Benchmark pendiente: ejecútalo en la diapositiva 14 para superponer las mediciones reales.';
+        } else obs.textContent = 'Benchmark pendiente: ejecútalo en la diapositiva 13 para superponer las mediciones reales.';
       } catch { obs.textContent = 'No se pudieron leer los resultados del benchmark.'; }
       grafico(caja, { type: 'line', data: { labels: ns.map((n) => fmt.n(n)), datasets: ds },
         options: { scales: { x: { ticks: { color: '#A8B3CC' }, grid: { color: 'rgba(120,160,255,.08)' }, title: { display: true, text: 'conductores (n)', color: '#6F7B98' } },

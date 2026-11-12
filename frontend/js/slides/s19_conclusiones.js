@@ -3,7 +3,7 @@ import { accion, encabezado, fmt, h, kpi, toast } from '../ui.js';
 
 export default {
   titulo: 'Resultados y conclusiones', capitulo: 'CIERRE',
-  notas: 'Cerrar con números medidos (no inventados): aceleración del Quadtree, validación de Dijkstra, pruebas que pasan y mapas Folium generados. Luego pulsar "Iniciar solicitud completa" para la demostración final en el mapa interactivo.',
+  notas: 'Cerrar con números medidos (no inventados): aceleración del Quadtree, validación de Dijkstra, pruebas que pasan y mapas Folium generados. Luego pulsar "Iniciar solicitud completa" para la demostración final en el Despachador (diapositiva 11).',
   crear({ city, api, ir, num, raiz }) {
     const vp = viewport();
     const k = { acel: kpi('Quadtree vs lineal (30 000)', '—', 'c-cyan', 'mediana medida'), dij: kpi('Dijkstra = NetworkX', '—', 'c-green'), tests: kpi('Pruebas pytest', '—', 'c-green'), mapas: kpi('Mapas Folium', '—', 'c-violet') };
@@ -11,9 +11,9 @@ export default {
     const mapas = h('div', { class: 'row' });
     const btn = h('button', { class: 'btn btn--neon btn--lg', type: 'button' }, '🚕 Iniciar solicitud completa');
     btn.addEventListener('click', () => accion(btn, async () => {
-      ir(12);
+      ir(10);
       await new Promise((r) => setTimeout(r, 900));
-      await window.__mapaInteractivo.demoFinal();
+      await window.__despachador.demoFinal();
     }));
     raiz.append(
       encabezado(num, 'CIERRE', 'Resultados, <em>conclusiones</em> y demostración final', 'Basado en lo medido por el sistema.'),
@@ -26,7 +26,7 @@ export default {
           h('div', { class: 'card' }, h('h4', {}, 'Mapas Folium (RF-07)'), mapas)),
         h('div', { class: 'stack' }, h('div', { style: { flex: 1, display: 'grid', minHeight: 0 } }, vp),
           h('div', { class: 'card card--violet', style: { textAlign: 'center' } }, h('p', {}, 'Pasajero → Quadtree → Haversine → Heap → Dijkstra → ETA → Conductor asignado'), btn,
-            h('p', { class: 'note', style: { textAlign: 'left' } }, 'UNIVERSIDAD DE SAN MARTÍN DE PORRES · Algoritmos y Estructura de Datos II · Antezana Vargas Jorge Jose, Andres Bardales Moreno, Vanessa Guerrero Yaniz')))));
+            h('p', { class: 'note', style: { textAlign: 'left' } }, 'UNIVERSIDAD DE SAN MARTÍN DE PORRES · Algoritmos y Estructura de Datos II · Antezana Vargas Jorge Jose, Andres Bardales Moreno, Vanessa Guerrero Yañez')))));
 
     async function cargar() {
       const [b, t, m] = await Promise.all([api('/api/benchmark/resultados'), api('/api/pruebas/resultados'), api('/api/mapas')]);
@@ -41,7 +41,7 @@ export default {
           : `Con ${fmt.n(pr.conductores)} conductores la ventaja medida fue ${pr.aceleracion_mediana.toFixed(1)}×; la ganancia depende del tamaño y la distribución de la flota.`);
         lis.push(`El Quadtree revisó en promedio ${fmt.n(Math.round(ul.elementos_revisados_quadtree))} conductores por consulta en lugar de ${fmt.n(ul.conductores)}.`);
         lis.push(`Dijkstra propio coincidió con NetworkX en ${R.dijkstra.pares.length} rutas de la red real de Comas.`);
-      } else { k.acel.set('Pendiente'); k.dij.set('Pendiente'); lis.push('El benchmark aún no se ha ejecutado (diapositiva 14).'); }
+      } else { k.acel.set('Pendiente'); k.dij.set('Pendiente'); lis.push('El benchmark aún no se ha ejecutado (diapositiva 13).'); }
       if (t.resultado) { const ok = t.resultado.total - t.resultado.fallos - t.resultado.errores; k.tests.set(`${ok}/${t.resultado.total}`); lis.push(`${ok} de ${t.resultado.total} pruebas automatizadas pasaron en la última ejecución.`); } else k.tests.set('Pendiente');
       k.mapas.set(m.mapas.length);
       lis.push('El conductor más cercano en línea recta no siempre llega primero: por eso la asignación final usa el ETA calculado por calles.');

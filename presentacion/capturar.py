@@ -1,4 +1,4 @@
-"""Captura las 18 diapositivas (1920×1080) para el PowerPoint complementario.
+"""Captura las 19 diapositivas (1920×1080) para el PowerPoint complementario.
 
 Requiere el servidor en marcha (iniciar.ps1) y Playwright:
     python -m presentacion.capturar [--url http://127.0.0.1:8000]
@@ -24,10 +24,10 @@ def main():
         pag.goto(args.url)
         pag.wait_for_selector("#boot.is-done", timeout=90_000)
         pag.evaluate("document.body.classList.add('expo')")  # vista limpia de exposición
-        for i in range(18):
+        for i in range(19):
             pag.evaluate(f"window.__app.ir({i}, {{instant: true}})")
             pag.wait_for_timeout(3000)
-            if i in (10, 12):  # despachador y mapa: ejecutar una solicitud real
+            if i == 10:  # despachador: ejecutar una solicitud real
                 pag.locator(f"#s-{i + 1:02d} button", has_text="Solicitar taxi").click()
                 pag.locator(f"#s-{i + 1:02d} .log .ok", has_text="Asignado").wait_for(timeout=30_000)
                 pag.wait_for_timeout(2500)

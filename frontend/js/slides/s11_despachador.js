@@ -15,6 +15,8 @@ export default {
       h('div', { class: 'slide__body', style: { gridTemplateRows: 'auto 1fr' } },
         panel.pipeline,
         h('div', { class: 'cols-73', style: { display: 'grid', gap: '1rem', minHeight: 0 } }, vp, h('div', { class: 'scroll-y' }, panel.el))));
+    // La diapositiva de conclusiones lanza aquí la demostración final.
+    window.__despachador = { demoFinal: () => panel.solicitarCompleto({ seguir: true }) };
     return {
       viewport: vp,
       entrar() {
